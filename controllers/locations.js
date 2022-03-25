@@ -1,14 +1,22 @@
 import { Location } from "../models/location.js";
 
-function index (req, res) {
-  Location.find({})
-  .populate('owner')
-  .then(locations => {
-    return res.json(locations)
-  })
-  .catch(err => {
-    res.json(err)
-  })
+async function index (req, res) {
+  try {
+    const locations = await Location.find({})
+    .populate('owner')
+    console.log(locations)
+    return res.status(201).json(locations)
+  } catch(err) {
+    return res.status(500).json(err)
+  }
+  // Location.find({})
+  // .populate('owner')
+  // .then(locations => {
+  //   return res.json(locations)
+  // })
+  // .catch(err => {
+  //   res.json(err)
+  // })
 }
 
 async function create(req, res) {
