@@ -12,7 +12,13 @@ function index (req, res) {
 }
 
 function create(req, res) {
-
+  req.body.owner = req.user.profile
+  Location.create(req.body)
+  .then(location => {
+    location.populate('owner')
+    .then(populateLocation)
+  })
+  .catch(err => res.json(err))
 }
 
 
