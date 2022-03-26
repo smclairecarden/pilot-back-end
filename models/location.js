@@ -19,7 +19,7 @@ const locationSchema = new Schema({
     max: 5, 
     required: true
   },
-  
+
   owner: {type: Schema.Types.ObjectId, ref: "Profile"},
   comments: [commentSchema],
   pictures: {type: String}

@@ -43,15 +43,15 @@ async function create(req, res) {
   // })
 }
 
-function getLocation(req, res) {
-  axios.get(`https://dev.virtualearth.net/REST/v1/Imagery/Map/AerialWithLabels/landmark=${req.params.name}?mapSize=500,400&key=${process.env.API_KEY}`)
-  .then(apiResponse => {
-    res.json(apiResponse.data)
-  })
-}
+// function getLocation(req, res) {
+//   axios.get(`https://dev.virtualearth.net/REST/v1/Imagery/Map/AerialWithLabels/landmark=${req.params.name}?mapSize=500,400&key=${process.env.API_KEY}`)
+//   .then(apiResponse => {
+//     res.json(apiResponse.data)
+//   })
+// }
 
 export {
   index,
   create,
-  getLocation,
+  // getLocation,
 }
