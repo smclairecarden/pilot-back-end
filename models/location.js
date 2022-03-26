@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const commentSchema = new Schema ({
-  content: {type: String, required: true},
+  content: String,
   owner: {type: Schema.Types.ObjectId, ref: "Profile"},
 }, {
   timestamps: true
@@ -12,7 +12,7 @@ const commentSchema = new Schema ({
 const locationSchema = new Schema({
   name: {type: String, required: true},
   description: {type: String},
-  entryPoints: {type: String, required: true},
+  entryPoints: {type: String},
   rating: {
     type: Number, 
     min: 1, 
@@ -22,15 +22,14 @@ const locationSchema = new Schema({
 
   owner: {type: Schema.Types.ObjectId, ref: "Profile"},
   comments: [commentSchema],
-  pictures: {type: String}
+  pictures: {type: String},
 }, {
   timestamps: true
 })
 
 const Location = mongoose.model('Location', locationSchema)
-const Comment = mongoose.model('Comment', commentSchema)
+
 
 export {
   Location,
-  Comment
 }
