@@ -50,8 +50,44 @@ function getLocation(req, res) {
   })
 }
 
+function update(req, res) {
+  if (req.body.photo === 'undefined' || !req.files['photo']) {
+    delete req.body['photo']
+    Location.findByIdAndUpdate(req.params.id, req.body, {new: true})
+    .then(location => {
+      location.populate('owner')
+      .then(populatedLocation => {
+        res.status(201).json(populatedLocation)
+      })
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json(err)
+    })
+  } else {
+    const imageFile = req.files.photo.path
+    cloudinary.uploader.upload(imageFile, {tags: `${req.body.name}`})
+    .then(image => {
+      console.log(image)
+      req.body.photo = image.url
+      Location.findByIdAndUpdate(req.params.id, req.body, {new: true})
+      .then(location => {
+        location.populate('owner')
+        .then(populatedLocation => {
+          res.status(201).json(populatedLocation)
+        })
+      })
+      .catch(err => {
+        console.log(err)
+        res.status(500).json(err)
+      })
+    })
+  }
+}
+
 export {
   index,
   create,
   getLocation,
+  update,
 }

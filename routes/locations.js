@@ -10,6 +10,7 @@ router.get('/:name', locationsCtrl.getLocation)
 
 router.use(decodeUserFromToken)
 router.post('/', checkAuth, locationsCtrl.create)
+router.put('/:id', checkAuth, locationsCtrl.update)
 
 export {
   router
