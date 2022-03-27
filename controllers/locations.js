@@ -50,8 +50,15 @@ function getLocation(req, res) {
   })
 }
 
+function update(req, res) {
+  Location.findByIdAndUpdate(req.params.id, req.body, {new: true})
+  .then(location => res.json(location))
+  .catch(err => res.json(err))
+}
+
 export {
   index,
   create,
   getLocation,
+  update,
 }
