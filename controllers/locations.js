@@ -45,6 +45,11 @@ async function create(req, res) {
     }
   }
 
+  async function deleteComment(req, res) {
+    Location.findByIdAndDelete(content._id)
+    .then(location => res.json(location))
+    .catch(err => res.json(err))
+  }
   
   // Location.create(req.body)
   //   .populate('owner')
@@ -86,4 +91,5 @@ export {
   createComment,
   update,
   show,
+  deleteComment as delete,
 }
