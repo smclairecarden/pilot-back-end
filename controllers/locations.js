@@ -6,7 +6,6 @@ async function index (req, res) {
   try {
     const locations = await Location.find({})
     .populate('owner')
-    console.log(locations)
     return res.status(201).json(locations)
   } catch(err) {
     return res.status(500).json(err)
