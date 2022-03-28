@@ -4,10 +4,10 @@ import axios from 'axios'
 
 async function index (req, res) {
   try {
-    const locations = await Location.find({})
+    Location.find({})
     .populate('owner')
-    console.log(locations)
-    return res.status(201).json(locations)
+    .populate({path: 'comments', populate: {path:'owner'}})
+    .then(locations => res.json(locations))
   } catch(err) {
     return res.status(500).json(err)
   }
@@ -71,10 +71,19 @@ function update(req, res) {
   .catch(err => res.json(err))
 }
 
+function show(req, res) {
+  Location.findById(req.params.id)
+  .populate('owner')
+  .populate({path: 'comments', populate: {path:'owner'}})
+  .then(location => res.json(location))
+  .catch(err => res.json(err))
+}
+
 export {
   index,
   create,
   getLocation,
   createComment,
   update,
+  show,
 }
