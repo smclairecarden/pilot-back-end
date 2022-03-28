@@ -22,6 +22,7 @@ async function index (req, res) {
 }
 
 async function create(req, res) {
+  console.log(req.body)
   try{
     req.body.owner = req.user.profile
     const location = new Location(req.body)
@@ -29,6 +30,19 @@ async function create(req, res) {
     return res.status(201).json(location)
   } catch(err) {
     return res.status(500).json(err)
+  }
+}
+
+  async function createComment(req, res) {
+    try {
+      req.body.owner = req.user.profile
+      const location = await Location.findById(req.params.id)
+      await location.comments.push(req.body)
+      await location.save()
+      return res.status(201).json(location)
+    } catch(err) {
+      return res.status(500).json(err)
+    }
   }
 
   
@@ -41,11 +55,12 @@ async function create(req, res) {
   //   console.log(err)
     
   // })
-}
+
 
 function getLocation(req, res) {
   axios.get(`https://dev.virtualearth.net/REST/v1/Imagery/Map/AerialWithLabels/landmark=${req.params.name}?mapSize=500,400&key=${process.env.API_KEY}`)
   .then(apiResponse => {
+    console.log('Loooooooookkkkkkkk', apiResponse)
     res.json(apiResponse.data)
   })
 }
@@ -54,4 +69,5 @@ export {
   index,
   create,
   getLocation,
+  createComment,
 }
