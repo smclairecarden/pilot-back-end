@@ -36,8 +36,8 @@ async function index (req, res) {
 
 function create(req, res) {
   req.body.owner = req.user.profile
-  if (req.body.photo === 'undefined' || !req.files['photo']) {
-    delete req.body['photo']
+  if (req.body.pictures === 'undefined' || !req.files['pictures']) {
+    delete req.body['pictures']
     Location.create(req.body)
     .then(location => {
       location.populate('owner')
@@ -50,10 +50,10 @@ function create(req, res) {
       res.status(500).json(err)
     })
   } else {
-    const imageFile = req.files.photo.path
+    const imageFile = req.files.pictures.path
     cloudinary.uploader.upload(imageFile, {tags: `${req.body.name}`})
     .then(image => {
-      req.body.photo = image.url
+      req.body.pictures = image.url
       Location.create(req.body)
       .then(location => {
         location.populate('owner')
