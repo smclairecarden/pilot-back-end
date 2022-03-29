@@ -22,15 +22,50 @@ async function index (req, res) {
   // })
 }
 
-async function create(req, res) {
-  console.log(req.body)
-  try{
-    req.body.owner = req.user.profile
-    const location = new Location(req.body)
-    await location.save()
-    return res.status(201).json(location)
-  } catch(err) {
-    return res.status(500).json(err)
+// async function create(req, res) {
+//   console.log(req.body)
+//   try{
+//     req.body.owner = req.user.profile
+//     const location = new Location(req.body)
+//     await location.save()
+//     return res.status(201).json(location)
+//   } catch(err) {
+//     return res.status(500).json(err)
+//   }
+// }
+
+function create(req, res) {
+  req.body.owner = req.user.profile
+  if (req.body.photo === 'undefined' || !req.files['photo']) {
+    delete req.body['photo']
+    Location.create(req.body)
+    .then(location => {
+      location.populate('owner')
+      .then(populatedLocation => {
+        res.status(201).json(populatedLocation)
+      })
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json(err)
+    })
+  } else {
+    const imageFile = req.files.photo.path
+    cloudinary.uploader.upload(imageFile, {tags: `${req.body.name}`})
+    .then(image => {
+      req.body.photo = image.url
+      Location.create(req.body)
+      .then(location => {
+        location.populate('owner')
+        .then(populatedLocation => {
+          res.status(201).json(populatedLocation)
+        })
+      })
+      .catch(err => {
+        console.log(err)
+        res.status(500).json(err)
+      })
+    })
   }
 }
 
