@@ -56,7 +56,6 @@ async function create(req, res) {
     
   // })
 
-
 function getLocation(req, res) {
   axios.get(`https://dev.virtualearth.net/REST/v1/Imagery/Map/AerialWithLabels/landmark=${req.params.name}?mapSize=500,400&key=${process.env.API_KEY}`)
   .then(apiResponse => {
@@ -79,6 +78,13 @@ function show(req, res) {
   .catch(err => res.json(err))
 }
 
+function deleteComment(req, res) {
+  Location.content.findByIdAndDelete(req.params.id)
+  console.log('HEYYYYYYYYY', req.params.id)
+  .then(locations => res.json(locations))
+  .catch(err => res.json(err))
+}
+
 export {
   index,
   create,
@@ -86,4 +92,5 @@ export {
   createComment,
   update,
   show,
+  deleteComment as delete
 }
