@@ -1,5 +1,6 @@
 import { Location } from "../models/location.js";
 import axios from 'axios'
+import {v2 as cloudinary} from 'cloudinary'
 
 
 async function index (req, res) {
@@ -21,15 +22,50 @@ async function index (req, res) {
   // })
 }
 
-async function create(req, res) {
-  console.log(req.body)
-  try{
-    req.body.owner = req.user.profile
-    const location = new Location(req.body)
-    await location.save()
-    return res.status(201).json(location)
-  } catch(err) {
-    return res.status(500).json(err)
+// async function create(req, res) {
+//   console.log(req.body)
+//   try{
+//     req.body.owner = req.user.profile
+//     const location = new Location(req.body)
+//     await location.save()
+//     return res.status(201).json(location)
+//   } catch(err) {
+//     return res.status(500).json(err)
+//   }
+// }
+
+function create(req, res) {
+  req.body.owner = req.user.profile
+  if (req.body.pictures === 'undefined' || !req.files['pictures']) {
+    delete req.body['pictures']
+    Location.create(req.body)
+    .then(location => {
+      location.populate('owner')
+      .then(populatedLocation => {
+        res.status(201).json(populatedLocation)
+      })
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json(err)
+    })
+  } else {
+    const imageFile = req.files.pictures.path
+    cloudinary.uploader.upload(imageFile, {tags: `${req.body.name}`})
+    .then(picture => {
+      req.body.pictures = picture.url
+      Location.create(req.body)
+      .then(location => {
+        location.populate('owner')
+        .then(populatedLocation => {
+          res.status(201).json(populatedLocation)
+        })
+      })
+      .catch(err => {
+        console.log(err)
+        res.status(500).json(err)
+      })
+    })
   }
 }
 
