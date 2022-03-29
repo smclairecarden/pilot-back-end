@@ -92,13 +92,13 @@ function create(req, res) {
     
   // })
 
-function getLocation(req, res) {
-  axios.get(`https://dev.virtualearth.net/REST/v1/Imagery/Map/AerialWithLabels/landmark=${req.params.name}?mapSize=500,400&key=${process.env.API_KEY}`)
-  .then(apiResponse => {
-    console.log('Loooooooookkkkkkkk', apiResponse)
-    res.json(apiResponse.data)
-  })
-}
+// function getLocation(req, res) {
+//   axios.get(`https://dev.virtualearth.net/REST/v1/Imagery/Map/AerialWithLabels/landmark=${req.params.name}?mapSize=500,400&key=${process.env.API_KEY}`)
+//   .then(apiResponse => {
+//     console.log('Loooooooookkkkkkkk', apiResponse)
+//     res.json(apiResponse.data)
+//   })
+// }
 
 function update(req, res) {
   Location.findByIdAndUpdate(req.params.id, req.body, {new: true})
@@ -115,16 +115,20 @@ function show(req, res) {
 }
 
 function deleteComment(req, res) {
-  Location.findByIdAndDelete(req.params.id)
-  console.log('HEYYYYYYYYY', req.params.id)
-  .then(locations => res.json(locations))
+  Location.findById(req.params.locationId)
+  .then(location => {
+  location.comments.deleteOne({_id: req.params.commentId})
+  location.save()
+ 
+  })
+  .then(location => res.json(location)) 
   .catch(err => res.json(err))
 }
 
 export {
   index,
   create,
-  getLocation,
+  // getLocation,
   createComment,
   update,
   show,
