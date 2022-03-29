@@ -52,8 +52,8 @@ function create(req, res) {
   } else {
     const imageFile = req.files.pictures.path
     cloudinary.uploader.upload(imageFile, {tags: `${req.body.name}`})
-    .then(image => {
-      req.body.pictures = image.url
+    .then(picture => {
+      req.body.pictures = picture.url
       Location.create(req.body)
       .then(location => {
         location.populate('owner')
