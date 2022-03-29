@@ -9,16 +9,4 @@ function index(req, res) {
   })
 }
 
-async function deleteComment(req, res) {
-  Profile.findById(req.params.id)
-  .then(profile => {
-    profile.pilot.content.remove({_id: req.params.id})
-    profile.save()
-  })
-  .catch(err => {
-    console.log(err)
-    return res.status(500).json(err)
-  })
-}
-
-export { index, deleteComment as delete }
+export { index }
