@@ -117,11 +117,12 @@ function show(req, res) {
 function deleteComment(req, res) {
   Location.findById(req.params.locationId)
   .then(location => {
-  location.comments.deleteOne({_id: req.params.commentId})
+  location.comments.remove({_id: req.params.commentId})
   location.save()
- 
+  .then(location => {
+  res.json(location)}) 
+  
   })
-  .then(location => res.json(location)) 
   .catch(err => res.json(err))
 }
 
