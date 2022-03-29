@@ -1,5 +1,6 @@
 import { Location } from "../models/location.js";
 import axios from 'axios'
+import {v2 as cloudinary} from 'cloudinary'
 
 
 async function index (req, res) {
