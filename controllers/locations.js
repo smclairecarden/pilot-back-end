@@ -80,7 +80,6 @@ function show(req, res) {
 
 function deleteComment(req, res) {
   Location.findByIdAndDelete(req.params.id)
-  console.log('HEYYYYYYYYY', req.params.id)
   .then(locations => res.json(locations))
   .catch(err => res.json(err))
 }
