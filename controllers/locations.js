@@ -85,10 +85,11 @@ function create(req, res) {
 
 function getLocation(req, res) {
   console.log('THIS IS WHAT NAME IS', req.params.name)
-  axios.get(`https://dev.virtualearth.net/REST/v1/Imagery/Map/AerialWithLabels/landmark=${req.params.name}?mapSize=500,400&key=${process.env.API_KEY}`)
+  axios.get(`https://dev.virtualearth.net/REST/v1/Imagery/Map/AerialWithLabels/landmark=${req.params.name}?mapSize=500,400&key=${process.env.API_KEY}&o=json`)
   .then(apiResponse => {
-    console.log('Loooooooookkkkkkkk', apiResponse)
-    res.json(apiResponse.data)
+
+    res.set('Content-Type', 'image/jpeg')
+    res.send(Buffer.from(apiResponse.data))
   })
 }
 
