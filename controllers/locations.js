@@ -89,7 +89,8 @@ function getLocation(req, res) {
   .then(apiResponse => {
 
     res.set('Content-Type', 'image/jpeg')
-    res.send(Buffer.from(apiResponse.data))
+    // res.send(Buffer.from(apiResponse.data, 'binary').toString('base64'))
+    res.send(apiResponse.data)
   })
 }
 
