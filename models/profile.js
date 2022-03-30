@@ -23,6 +23,7 @@ const profileSchema = new mongoose.Schema({
   skillLevel: Number, 
   pilot: [pilotSchema], 
   photo: {type: String},
+  contact: {type: String},
   favLocations: {type: mongoose.Schema.Types.ObjectId, ref: "Location"}, 
   // messages: {type: mongoose.Schema.Types.ObjectId, ref: "Message"}, TODO
 },{
