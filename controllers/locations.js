@@ -81,24 +81,16 @@ function create(req, res) {
     }
   }
 
-  
-  // Location.create(req.body)
-  //   .populate('owner')
-  //   .exec(newLocation => {
-  //     return 
-  //   })
-  // .catch(err => {
-  //   console.log(err)
-    
-  // })
 
-// function getLocation(req, res) {
-//   axios.get(`https://dev.virtualearth.net/REST/v1/Imagery/Map/AerialWithLabels/landmark=${req.params.name}?mapSize=500,400&key=${process.env.API_KEY}`)
-//   .then(apiResponse => {
-//     console.log('Loooooooookkkkkkkk', apiResponse)
-//     res.json(apiResponse.data)
-//   })
-// }
+
+function getLocation(req, res) {
+  console.log('THIS IS WHAT NAME IS', req.params.name)
+  axios.get(`https://dev.virtualearth.net/REST/v1/Imagery/Map/AerialWithLabels/landmark=${req.params.name}?mapSize=500,400&key=${process.env.API_KEY}`)
+  .then(apiResponse => {
+    console.log('Loooooooookkkkkkkk', apiResponse)
+    res.json(apiResponse.data)
+  })
+}
 
 function update(req, res) {
   Location.findByIdAndUpdate(req.params.id, req.body, {new: true})
@@ -129,7 +121,7 @@ function deleteComment(req, res) {
 export {
   index,
   create,
-  // getLocation,
+  getLocation,
   createComment,
   update,
   show,
