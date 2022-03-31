@@ -30,6 +30,8 @@ function signup(req, res) {
   })
 }
 
+
+
 function login(req, res) {
   User.findOne({ email: req.body.email })
   .then(user => {

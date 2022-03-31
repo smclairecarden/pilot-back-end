@@ -123,7 +123,7 @@ function deleteComment(req, res) {
 export {
   index,
   create,
-  //getLocation,
+  getLocation,
   createComment,
   update,
   show,
