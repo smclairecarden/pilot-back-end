@@ -9,7 +9,7 @@ const profileSchema = new mongoose.Schema({
   skillLevel: Number, 
   pilot: {type: Boolean},
   kayakSUP: {type: Boolean},
-  photo: {type: String},
+  photo: String,
   contact: {type: String},
   favLocations: {type: mongoose.Schema.Types.ObjectId, ref: "Location"}, 
 },{
