@@ -83,15 +83,15 @@ function create(req, res) {
 
 
 
-function getLocation(req, res) {
-  console.log('THIS IS WHAT NAME IS', req.params.name)
-  axios.get(`https://dev.virtualearth.net/REST/v1/Imagery/Map/AerialWithLabels/landmark=${req.params.name}?mapSize=500,400&key=${process.env.API_KEY}&o=json`)
-  .then(apiResponse => {
+// function getLocation(req, res) {
+//   console.log('THIS IS WHAT NAME IS', req.params.name)
+//   axios.get(`https://dev.virtualearth.net/REST/v1/Imagery/Map/AerialWithLabels/landmark=${req.params.name}?mapSize=500,400&key=${process.env.API_KEY}&o=json`)
+//   .then(apiResponse => {
 
-    res.set('Content-Type', 'image/jpeg')
-    res.send(Buffer.from(apiResponse.data))
-  })
-}
+//     res.set('Content-Type', 'image/jpeg')
+//     res.send(Buffer.from(apiResponse.data))
+//   })
+// }
 
 function update(req, res) {
   Location.findByIdAndUpdate(req.params.id, req.body, {new: true})
@@ -122,7 +122,7 @@ function deleteComment(req, res) {
 export {
   index,
   create,
-  getLocation,
+  //getLocation,
   createComment,
   update,
   show,

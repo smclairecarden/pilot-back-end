@@ -6,7 +6,7 @@ const router = Router()
 
 // router.get('/:id', locationsCtrl.show)
 router.get('/', locationsCtrl.index)
-router.get('/:name', locationsCtrl.getLocation)
+//router.get('/:name', locationsCtrl.getLocation)
 router.get('/:id/comments', locationsCtrl.show)
 
 router.use(decodeUserFromToken)
